@@ -1,9 +1,9 @@
 class Config:
     # Путь к excel файлу для чтения
-    PATH_TO_EXCEL_FILE = 'excel/Toloka.xlsx'
+    PATH_TO_EXCEL_FILE = ''
 
     # Путь к excel файлу для сохранения результата
-    PATH_TO_SAVE = 'excel/result.xlsx'
+    PATH_TO_SAVE = ''
 
     # Стопслова
     STOPWORDS = ['адрес', 'район', 'метро', 'ул', 'требуется', 'ищу', 'рассмотрю']
