@@ -62,7 +62,8 @@ def write_data_to_sheet(workbook: Workbook, sheet_name: str, data: list):
     sheet['W1'] = 'Unique words full_desc'
     sheet['X1'] = 'Dublicate word result_gold'
     sheet['Y1'] = 'Dublicate word full_desc'
-    sheet['Z1'] = 'Dublicate short_desc  - Unique words result_gold'
+    sheet['Z1'] = 'Dublicate short_desc - Unique words result_gold'
+    sheet['AA1'] = 'Dublicate word result_gold - Dublicate word full_desc'
 
     sheet['U1'].fill = PatternFill("solid", fgColor=Colors.YELLOW.value)
     sheet['V1'].fill = PatternFill("solid", fgColor=Colors.YELLOW.value)
@@ -70,6 +71,7 @@ def write_data_to_sheet(workbook: Workbook, sheet_name: str, data: list):
     sheet['X1'].fill = PatternFill("solid", fgColor=Colors.YELLOW.value)
     sheet['Y1'].fill = PatternFill("solid", fgColor=Colors.YELLOW.value)
     sheet['Z1'].fill = PatternFill("solid", fgColor=Colors.YELLOW.value)
+    sheet['AA1'].fill = PatternFill("solid", fgColor=Colors.YELLOW.value)
 
     for elem in data:
         if hasattr(elem, 'data'):

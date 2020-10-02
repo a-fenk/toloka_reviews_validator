@@ -112,6 +112,15 @@ def run_validation():
                 row=row['row'],
                 column='Y'
             ))
+            # определение Dublicate word result_gold - Dublicate word full_desc
+            res.append(CellData(
+                data=result_gold,
+                color=Colors.GREEN if all(
+                    elem in duplicates_full_desc for elem in
+                    duplicates_result_gold) and duplicates_result_gold else Colors.WHITE,
+                row=row['row'],
+                column='AA'
+            ))
             # поиск стопслов в result_gold
             if has_stopword(row['result_gold']):
                 res.append((CellData(
