@@ -1,7 +1,7 @@
 from openpyxl import load_workbook
 
 from excel_service import read_data_from_workbook, CellData, Colors, write_data_to_sheet
-from utils import find_duplicates, tokenize, find_unique, check_for_duplicates, has_stopword
+from utils import find_duplicates, find_unique, check_for_duplicates, has_stopword, stemmer
 from config import Config
 
 
@@ -36,6 +36,7 @@ def run_validation():
                 row=row['row'],
                 column='U'
             ))
+            color = Colors.WHITE
             # поиск уникальных между result_gold и full_description
             result_gold=row['result_gold'].lower()
             unique_result_gold = find_unique(row['result_gold'], row['full_desc'])
@@ -112,12 +113,16 @@ def run_validation():
                 row=row['row'],
                 column='Y'
             ))
-            # определение Dublicate word result_gold - Dublicate word full_desc
+            # определение Dublicate word full_desc - Dublicate word result_gold
+            if not duplicates_result_gold:
+                color = Colors.GREY
+            elif all(elem in duplicates_full_desc for elem in duplicates_result_gold):
+                color = Colors.GREEN
+            else:
+                color = Colors.WHITE
             res.append(CellData(
                 data=result_gold,
-                color=Colors.GREEN if all(
-                    elem in duplicates_full_desc for elem in
-                    duplicates_result_gold) and duplicates_result_gold else Colors.WHITE,
+                color=color,
                 row=row['row'],
                 column='AA'
             ))
@@ -129,7 +134,7 @@ def run_validation():
                     column='I'
                 )))
             # поиск символов в result_gold
-            elif any(elem in row['result_gold'] for elem in [' ,', ' .', '  ']):
+            elif any(elem in row['result_gold'] for elem in [' ,', ' .', '  ']) or any([word for word in row['result_gold'].split(',')[1:] if word and ' ' != word[0]]) or any([word for word in row['result_gold'].split('.')[1:] if word and ' ' != word[0]]):
                 res.append((CellData(
                     color=Colors.GREY,
                     row=row['row'],
@@ -143,7 +148,7 @@ def run_validation():
                     column='D'
                 )))
             # поиск символов в full_desc
-            elif any(elem in row['full_desc'] for elem in [' ,', ' .', '  ']):
+            elif any(elem in row['full_desc'] for elem in [' ,', ' .', '  ']) or any([word for word in row['full_desc'].split(',')[1:] if word and ' ' != word[0]]) or any([word for word in row['full_desc'].split('.')[1:] if word and ' ' != word[0]]):
                 res.append((CellData(
                     color=Colors.GREY,
                     row=row['row'],
